@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex"; //注册 action 和 state
+import { mapActions, mapState ,mapMutations} from "vuex"; //注册 action 和 state、mutations
 export default {
   name: "login",
   data() {
@@ -26,11 +26,11 @@ export default {
   },
   computed: {
     //在这里映射 store.state.userInfo computed 里的其他属性一样
-    ...mapState(["userInfo"])
+    ...mapState(["userInfo","count"])
   },
   methods: {
-    //在这里引入 action 里的方法，使用方法和 methods 里的其他方法一样
-    ...mapActions(["addcount", "changeUser"]),
+    //在这里引入 Mutations 里的方法，使用方法和 methods 里的其他方法一样
+    ...mapMutations(["addcount", "changeUser"]),
     login() {
       let _this = this;
       if (!_this.username) {
@@ -42,6 +42,7 @@ export default {
           name: _this.username,
           pass: _this.passwrod
         };
+        _this.addcount();
         _this.changeUser(userObj);
         // 两种方式都可以实现页面跳转切换
         // 二者区别，query相当于get请求，页面跳转的时候，可以在地址栏看到请求参数，

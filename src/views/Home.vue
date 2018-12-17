@@ -2,7 +2,7 @@
   <div class="home">
     <div class="home_top">
       <img alt="Vue logo" src="../assets/logo.png">
-      <span>欢迎你,{{userObj.name}},今天是{{weatheObj.today.date_y}},{{weatheObj.today.week}},{{weatheObj.today.city}}今天天气{{weatheObj.today.weather}}温度{{weatheObj.today.temperature}},{{weatheObj.today.dressing_advice}}</span>
+      <span>欢迎你,{{userObj.name}},今天是{{today.date_y}},{{today.week}},{{today.city}}今天天气{{today.weather}}温度{{today.temperature}},{{today.dressing_advice}}</span>
     </div>
     <div id="nav">
       <router-link to="/">Home</router-link> |
@@ -22,6 +22,7 @@ export default {
     return{
       weatherKey:'c4542dd6d57f692e2ca980b962f1dea4', 
       weatheObj:{},
+      today:{},
       userObj:{}
     }
   },
@@ -35,13 +36,12 @@ export default {
   methods:{
     ...mapActions(["addcount", "changeUser"]),
     getweatherInfo:function(){
-      console.log('getweatherInfo');
        console.log(returnCitySN);
-      let city = returnCitySN.cname;
+      let city = returnCitySN.cname,_this = this;
       this.$axios.get("api/weather/index?cityname=武汉&key="+this.weatherKey,).then(res => {
-        console.log("res:", res);
         if(res.data.error_code == 0){
-          this.weatheObj = res.data.result;
+          _this.weatheObj = res.data.result;
+          _this.today = res.data.result.today;
         }
       });
     }
