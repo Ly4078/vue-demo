@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <h1>{{ msg }}{{name}}</h1>
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
       check out the
@@ -31,11 +31,26 @@
 </template>
 
 <script>
+import Bus from '../assets/bus.js'
 export default {
   name: 'HelloWorld',
+  data(){
+    return{
+      name: ''
+    }
+  },
   props: {
     msg: String
-  }
+  },
+  mounted: function () {
+      //接收兄弟组件发来的消息
+      var vm = this;
+      // 用$on事件来接收参数
+      Bus.$on('val', (data) => {
+        console.log(data)
+        vm.name = data
+      })
+    }
 }
 </script>
 
